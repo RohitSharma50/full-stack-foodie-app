@@ -14,7 +14,7 @@ export const loginUser = (userData) => async (dispatch) => {
     dispatch(userLoginRequest());
     const API_URL =
       process.env.NODE_ENV === "production"
-        ? "https://your-backend-name.onrender.com"
+        ? "https://full-stack-foodie-app.onrender.com/"
         : "http://localhost:5000";
 
     const response = await axios.post(
@@ -34,9 +34,13 @@ export const loginUser = (userData) => async (dispatch) => {
 export const registerUser = (userData) => async (dispatch) => {
   try {
     dispatch(userRegisterRequest()); // You can create a separate registerRequest if needed
+    const API_URL =
+      process.env.NODE_ENV === "production"
+        ? "https://full-stack-foodie-app.onrender.com/"
+        : "http://localhost:5000";
 
     const response = await axios.post(
-      "http://localhost:5000/api/users/register", // <-- Make sure this matches your backend
+      `${API_URL}/api/users/register`, // <-- Make sure this matches your backend
       userData
     );
     const { user } = response.data;
