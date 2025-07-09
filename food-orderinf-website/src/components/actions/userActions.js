@@ -14,7 +14,7 @@ export const loginUser = (userData) => async (dispatch) => {
     dispatch(userLoginRequest());
     const API_URL =
       process.env.NODE_ENV === "production"
-        ? "https://full-stack-foodie-app.onrender.com/"
+        ? "https://full-stack-foodie-app.onrender.com"
         : "http://localhost:5000";
 
     const response = await axios.post(
@@ -36,7 +36,7 @@ export const registerUser = (userData) => async (dispatch) => {
     dispatch(userRegisterRequest()); // You can create a separate registerRequest if needed
     const API_URL =
       process.env.NODE_ENV === "production"
-        ? "https://full-stack-foodie-app.onrender.com/"
+        ? "https://full-stack-foodie-app.onrender.com"
         : "http://localhost:5000";
 
     const response = await axios.post(
