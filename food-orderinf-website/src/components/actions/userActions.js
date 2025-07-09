@@ -12,9 +12,13 @@ import axios from "axios";
 export const loginUser = (userData) => async (dispatch) => {
   try {
     dispatch(userLoginRequest());
+    const API_URL =
+      process.env.NODE_ENV === "production"
+        ? "https://your-backend-name.onrender.com"
+        : "http://localhost:5000";
 
     const response = await axios.post(
-      "http://localhost:5000/api/users/login", // <-- Your login endpoint
+      `${API_URL}/api/users/login`, // <-- Your login endpoint
       userData
     );
     console.log("rohit", response.data);

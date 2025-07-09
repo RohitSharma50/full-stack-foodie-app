@@ -29,7 +29,11 @@ const Login = ({ setAuthMode, authMode }) => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
+      const API_URL =
+        process.env.NODE_ENV === "production"
+          ? "https://your-backend-name.onrender.com"
+          : "http://localhost:5000";
+      const res = await fetch(`${API_URL}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
