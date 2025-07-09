@@ -1,0 +1,12 @@
+{
+    "css.lint.unknownAtRules": "ignore",
+    "files.exclude": {
+        "**/.DS_Store": false,
+        "**/.git": false,
+        "**/.hg": false,
+        "**/.svn": false,
+        "**/CVS": false,
+        "**/Thumbs.db": false
+    },
+    "liveServer.settings.port": 5501
+}
