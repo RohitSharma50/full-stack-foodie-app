@@ -31,7 +31,7 @@ const Login = ({ setAuthMode, authMode }) => {
     try {
       const API_URL =
         process.env.NODE_ENV === "production"
-          ? "https://your-backend-name.onrender.com"
+          ? "https://full-stack-foodie-app.onrender.com"
           : "http://localhost:5000";
       const res = await fetch(`${API_URL}/api/users/login`, {
         method: "POST",
