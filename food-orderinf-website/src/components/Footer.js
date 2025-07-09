@@ -1,7 +1,7 @@
 import React from "react";
 import heartt from "../Images/heartt.png";
 import { FaLinkedin, FaGithub, FaPaperPlane, FaGlobe } from "react-icons/fa";
-import Contact from "./contact";
+import Contact from "./Contact";
 import { Link } from "react-router-dom";
 import playStore from "../Images/play-store.svg"; // Ensure this path is
 

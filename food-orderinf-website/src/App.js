@@ -30,7 +30,6 @@ import store from "./utils/store";
 const About = lazy(() => import("./components/About"));
 const Footer = lazy(() => import("./components/Footer"));
 const RestaurantMenu = lazy(() => import("./components/RestrauntMenu"));
-
 function onRender(
   id,
   phase,
