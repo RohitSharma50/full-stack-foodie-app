@@ -29,7 +29,3 @@ const Error = () => {
   );
 };
 export default Error;
-
-{
-  /* <h2 className="flex justify-center text-xl">{err.status + ":" + err.statusText}</h2> */
-}

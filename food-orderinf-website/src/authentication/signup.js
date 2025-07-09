@@ -27,7 +27,7 @@ const Signup = ({ setAuthMode, authMode }) => {
 
     const user = { name, email, password };
     try {
-      dispatch(registerUser(user)); // ✅ dispatch async action
+      dispatch(registerUser(user)); //  dispatch async action
 
       navigate("/");
     } catch (err) {
