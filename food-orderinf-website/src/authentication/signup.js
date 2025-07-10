@@ -28,19 +28,23 @@ const Signup = ({ setAuthMode, authMode }) => {
     const user = { name, email, password };
     try {
       dispatch(registerUser(user)); //  dispatch async action
-
+      alert("Registration successful");
+      alert("Please login to continue");
       navigate("/");
     } catch (err) {
       setError("signup failed");
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
-        {error && <div className="mb-4  text-sm text-center">{error}</div>}
+    <section className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <section className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
+        <h1 className="text-3xl font-bold text-center  py-6">Sign Up</h1>
+        {error && (
+          <p className="mb-4  text-sm text-center text-red-800">{error}</p>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
+          <section>
             <label className="block text-sm font-medium mb-1">Name</label>
             <input
               type="name"
@@ -49,8 +53,8 @@ const Signup = ({ setAuthMode, authMode }) => {
               onChange={(e) => setName(e.target.value)}
               placeholder="Name"
             />
-          </div>
-          <div>
+          </section>
+          <section>
             <label className="block text-sm font-medium mb-1">Email</label>
             <input
               type="email"
@@ -58,10 +62,11 @@ const Signup = ({ setAuthMode, authMode }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
+              autoComplete="username"
             />
-          </div>
+          </section>
 
-          <div>
+          <section>
             <label className="block text-sm font-medium mb-1">Password</label>
             <input
               type="password"
@@ -69,21 +74,22 @@ const Signup = ({ setAuthMode, authMode }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
+              autoComplete="new-password"
             />
-          </div>
+          </section>
 
           <button
             type="submit"
-            className="w-full bg-slate-800 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
+            className="w-full bg-slate-800 text-white py-2 rounded-md transition duration-300 ease-in-out"
           >
             Sign Up
           </button>
         </form>
 
-        <p className="text-sm text-center text-gray-500 mt-4">
+        <p className="text-sm text-center text-gray-800 mt-4">
           Already have an account?{" "}
           <button
-            className="text-blue-600 underline"
+            className="text-blue-800 underline"
             onClick={() =>
               setAuthMode(authMode === "signup" ? "login" : "signup")
             }
@@ -91,8 +97,8 @@ const Signup = ({ setAuthMode, authMode }) => {
             Login
           </button>
         </p>
-      </div>
-    </div>
+      </section>
+    </section>
   );
 };
 

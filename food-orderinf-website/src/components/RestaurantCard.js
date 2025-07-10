@@ -8,10 +8,13 @@ const RestrauntCard = ({
   costForTwo,
 }) => {
   return (
-    <section className="w-64   m-4 p-3 rounded-lg  hover:scale-110 shadow-zinc-500 shadow-lg  flex-wrap justify-start">
+    <section className="w-64 m-4 p-3 rounded-lg  hover:scale-110 shadow-zinc-500 shadow-lg  flex-wrap justify-start">
       <img
+        loading="lazy"
         className="w-full h-auto rounded-lg align-middle"
         src={IMG_CDN_URL + cloudinaryImageId}
+        w="250"
+        h="280"
         alt={name}
       />
       <h1 className="font-bold text-lg bg-clip-content truncate break-words ">

@@ -59,27 +59,27 @@ const Login = ({ setAuthMode, authMode }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <section className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
         <h1 className="text-3xl font-bold text-center text-gray-800 py-6">
           Login
         </h1>
         {error && (
-          <div className="mb-4 text-red-600 text-sm text-center">{error}</div>
+          <div className="mb-4 text-red-800 text-sm text-center">{error}</div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+          <section>
+            <label className=" text-sm font-medium mb-1">Email</label>
             <input
               type="email"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
+              autoComplete="username"
             />
-          </div>
-
-          <div>
+          </section>
+          <section>
             <label className="block text-sm font-medium mb-1">Password</label>
             <input
               type="password"
@@ -87,12 +87,12 @@ const Login = ({ setAuthMode, authMode }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
+              autoComplete="current-password"
             />
-          </div>
-
+          </section>
           <button
             type="submit"
-            className="w-full  bg-slate-800 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
+            className="w-full  bg-slate-800 text-white py-2 rounded-md  transition duration-300"
           >
             Login
           </button>
@@ -109,7 +109,7 @@ const Login = ({ setAuthMode, authMode }) => {
           </button>
         </p>
       </div>
-    </div>
+    </section>
   );
 };
 

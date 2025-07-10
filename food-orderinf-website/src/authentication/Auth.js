@@ -8,12 +8,12 @@ export const Auth = () => {
   const [authMode, setAuthMode] = useState("login"); // or "signup"
 
   return (
-    <div>
+    <section>
       {authMode === "login" ? (
         <Login setAuthMode={setAuthMode} authMode={authMode} />
       ) : (
         <Signup setAuthMode={setAuthMode} authMode={authMode} />
       )}
-    </div>
+    </section>
   );
 };

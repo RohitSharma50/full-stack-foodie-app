@@ -14,7 +14,7 @@
  *   - Zero-config setup
  */
 
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, Profiler } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -24,7 +24,6 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Contact from "./components/Contact";
 import { Auth } from "./authentication/Auth";
 import Cart from "./components/Cart";
-import { Profiler } from "react";
 import { Provider } from "react-redux";
 import store from "./utils/store";
 const About = lazy(() => import("./components/About"));
@@ -49,7 +48,7 @@ const AppLayout = () => {
         <Outlet />
       </Profiler>
       <Profiler id="footer" onRender={onRender}>
-        <Suspense fallback={<div>Loading Menu...</div>}>
+        <Suspense>
           <Footer />
         </Suspense>
       </Profiler>
@@ -72,7 +71,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/About",
         element: (
-          <Suspense fallback={<div>Loading Menu...</div>}>
+          <Suspense>
             <About />
           </Suspense>
         ),
@@ -88,7 +87,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurant/:resId",
         element: (
-          <Suspense fallback={<div>Loading Menu...</div>}>
+          <Suspense>
             <RestaurantMenu />
           </Suspense>
         ),

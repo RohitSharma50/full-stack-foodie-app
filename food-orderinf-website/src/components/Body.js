@@ -50,7 +50,7 @@ const Body = () => {
     <Shimmer />
   ) : (
     <>
-      <div className="p-4 flex justify-center ">
+      <section className="p-4 flex justify-center ">
         <input
           type="text"
           className="border border-gray-300 rounded-lg w-1/3 p-2 pr-8 mr-2"
@@ -71,9 +71,9 @@ const Body = () => {
         >
           Search
         </button>
-      </div>
+      </section>
 
-      <div className="resturant-list flex flex-wrap justify-center">
+      <section className="resturant-list flex flex-wrap justify-center">
         {filterdRestaurant?.length === 0 ? (
           <h1>No data match your filter</h1>
         ) : (
@@ -88,7 +88,7 @@ const Body = () => {
             );
           })
         )}
-      </div>
+      </section>
     </>
   );
 };

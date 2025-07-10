@@ -3,10 +3,13 @@ import FoodItem from "./FoodItem";
 import { useState } from "react";
 import { total } from "./FoodItem";
 import emptyCartImage from "../Images/empty-cart.jpg";
+import { useNavigate } from "react-router-dom";
+
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);
 
   const [order, setOrder] = useState([]);
+  const navigate = useNavigate();
   const handleOrderClick = () => {
     if (!cartItems.length) {
       alert("Please add Value to cart");
@@ -26,17 +29,20 @@ const Cart = () => {
     localStorage.setItem("cartItems", JSON.stringify(updatedOrder));
 
     setOrder([updatedOrder]);
-    window.location.href = "/order"; // Redirect to order page
+    navigate("/order");
+    // Redirect to order page
   };
-  const total = cartItems.reduce((sum, item) => {
-    return (
-      sum +
-      (item.price * item.count
-        ? item.price * item.count
-        : item.defaultPrice * item.count) /
-        100
-    );
-  }, 0);
+  const total = toFixed(
+    cartItems.reduce((sum, item) => {
+      return (
+        sum +
+        (item.price * item.count
+          ? item.price * item.count
+          : item.defaultPrice * item.count) /
+          100
+      );
+    }, 0)
+  );
 
   return (
     <div className="flex flex-col justify-center my-10 sm:w-2/3   lg:w-1/3 mx-auto    shadow-zinc-400  shadow-lg p-4   ">

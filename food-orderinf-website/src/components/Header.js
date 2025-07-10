@@ -1,9 +1,8 @@
 import { useState } from "react";
 import logo from "../Images/foodie.webp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userLogout } from "../utils/userSlice"; // Import
-import { useNavigate } from "react-router-dom";
 
 const Title = () => {
   return (
@@ -53,21 +52,26 @@ const Header = () => {
             {!!currentUser ? (
               <div className="relative">
                 <button onClick={() => setOpen(!open)} className="p-2">
-                  <span className="mr-0 w-8 h-8">{currentUser.name}</span>
+                  <span className="mr-0 w-8 h-8">
+                    {currentUser.name ? currentUser.name : "User"}
+                  </span>
                 </button>
 
                 {open && (
                   <ul className="absolute right-0 mt-2 bg-white shadow-md rounded w-40">
-                    <Link to="/about">
+                    <Link to="/about" onClick={() => setOpen(false)}>
                       <li className="p-2 hover:bg-gray-100">About Us</li>
                     </Link>
-                    <Link to="/order">
+                    <Link to="/order" onClick={() => setOpen(false)}>
                       {" "}
                       <li className="p-2 hover:bg-gray-100">Order</li>
                     </Link>
                     <li
                       className="p-2 hover:bg-gray-100"
-                      onClick={handleLogout}
+                      onClick={() => {
+                        setOpen(false);
+                        handleLogout();
+                      }}
                     >
                       Logout
                     </li>
