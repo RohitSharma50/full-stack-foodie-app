@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import FoodItem from "./FoodItem";
 import { useState } from "react";
-import { total } from "./FoodItem";
 import emptyCartImage from "../Images/empty-cart.jpg";
 import { useNavigate } from "react-router-dom";
 
@@ -32,8 +31,8 @@ const Cart = () => {
     navigate("/order");
     // Redirect to order page
   };
-  const total = toFixed(
-    cartItems.reduce((sum, item) => {
+  const total = cartItems
+    .reduce((sum, item) => {
       return (
         sum +
         (item.price * item.count
@@ -42,7 +41,7 @@ const Cart = () => {
           100
       );
     }, 0)
-  );
+    .toFixed(2);
 
   return (
     <div className="flex flex-col justify-center my-10 sm:w-2/3   lg:w-1/3 mx-auto    shadow-zinc-400  shadow-lg p-4   ">
@@ -60,7 +59,7 @@ const Cart = () => {
                  shadow-black shadow-sm "
             >
               {" "}
-              Total in INR - {total}
+              Total in INR - {total ? total : "100"}{" "}
             </h3>
           </div>
           <button className="flex justify-end">
