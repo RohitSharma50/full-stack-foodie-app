@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
       minLength: 2,
-      maxLength: 15,
+      maxLength: 100,
     },
     email: {
       type: String,
@@ -24,10 +24,20 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required() {
+        return !this.googleId;
+      },
       trim: true,
       minLength: 3,
       maxLength: 100,
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+    picture: {
+      type: String,
     },
   },
   {

@@ -28,7 +28,7 @@ import { Provider } from "react-redux";
 import store from "./utils/store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { GoogleOAuthProvider } from "@react-oauth/google";
 const About = lazy(() => import("./components/About"));
 const Footer = lazy(() => import("./components/Footer"));
 
@@ -40,7 +40,7 @@ function onRender(
   actualDuration,
   baseDuration,
   startTime,
-  commitTime
+  commitTime,
 ) {}
 
 const AppLayout = () => {
@@ -116,10 +116,12 @@ const appRouter = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <RouterProvider
-    future={{
-      v7_startTransition: true,
-    }}
-    router={appRouter}
-  />
+  <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
+    <RouterProvider
+      future={{
+        v7_startTransition: true,
+      }}
+      router={appRouter}
+    />
+  </GoogleOAuthProvider>,
 );

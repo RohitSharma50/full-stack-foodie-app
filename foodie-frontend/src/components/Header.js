@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../Images/foodie.webp";
+import logo from "url:../Images/foodie.webp";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userLogout } from "../utils/userSlice";
@@ -10,9 +10,9 @@ const Title = () => {
       <img
         fetchpriority="high"
         src={logo}
-        alt="Foodie app logo"
+        alt="Foodie logo"
         height="112"
-        width="112" // Adjusted for better performance
+        width="112"
         className="h-28 w-auto p-0"
       />
     </a>
@@ -30,23 +30,20 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(userLogout());
-
     sessionStorage.clear();
 
-    navigate("/");
+    navigate("/auth", { replace: true });
   };
   return (
     <nav className="flex justify-between bg-white shadow-lg ">
       <Title />
       <section>
         <ul className="flex py-1  text-2xl items-center ">
-          {!!currentUser && (
-            <li className="px-2 hover:shadow-lg">
-              <Link to="/cart">
-                🛒{cartItems.length ? cartItems.length : " "}
-              </Link>
-            </li>
-          )}
+          <li className="px-2 hover:shadow-lg">
+            <Link to="/cart" aria-label={`View cart, ${cartItems.length} item types`}>
+              🛒{cartItems.reduce((count, item) => count + (item.count || 1), 0)}
+            </Link>
+          </li>
           <li className="px-0 hover:shadow-lg rounded-md">
             {" "}
             {!!currentUser ? (

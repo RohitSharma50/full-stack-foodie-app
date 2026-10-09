@@ -1,20 +1,40 @@
-import { useSelector } from "react-redux";
-import FoodItem from "./FoodItem";
-import { useState } from "react";
-import emptyCartImage from "../Images/empty-cart.jpg";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import emptyCartImage from "url:../Images/empty-cart.jpg";
+import { ITEM_IMG_CDN_URL } from "../utils/Constant";
+import { clearCart, decrementItemCount, incrementItemCount } from "../utils/cartSlice";
 
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);
-
-  const [order, setOrder] = useState([]);
+  const currentUser = useSelector((store) => store.user.currentUser);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleOrderClick = () => {
     if (!cartItems.length) {
-      alert("Please add Value to cart");
+      toast.error("Add an item to your cart before ordering.");
       return;
     }
-    const existingOrder = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    if (!currentUser) {
+      navigate("/auth", {
+        state: { from: { pathname: "/cart" } },
+      });
+      return;
+    }
+
+    let existingOrder;
+    try {
+      existingOrder = JSON.parse(localStorage.getItem("cartItems") || "[]");
+      if (!Array.isArray(existingOrder)) {
+        throw new Error("Stored order history is invalid.");
+      }
+    } catch (error) {
+      console.error("Unable to read saved orders:", error);
+      toast.error("Could not load your order history. Please try again.");
+      return;
+    }
+
     const newValue = {
       id: Date.now(),
       date: new Date().toLocaleDateString("en-IN", {
@@ -25,60 +45,98 @@ const Cart = () => {
       items: cartItems,
     };
     const updatedOrder = [...existingOrder, newValue];
-    localStorage.setItem("cartItems", JSON.stringify(updatedOrder));
 
-    setOrder([updatedOrder]);
-    navigate("/order");
-    // Redirect to order page
+    try {
+      localStorage.setItem("cartItems", JSON.stringify(updatedOrder));
+    } catch (error) {
+      console.error("Unable to save order:", error);
+      toast.error("Could not save your order. Please try again.");
+      return;
+    }
+
+    dispatch(clearCart());
+    navigate("/order", { replace: true });
   };
   const total = cartItems
     .reduce((sum, item) => {
-      return (
-        sum +
-        (item.price * item.count
-          ? item.price * item.count
-          : item.defaultPrice * item.count) /
-          100
-      );
+      return sum + ((item.price ?? item.defaultPrice ?? 0) * item.count) / 100;
     }, 0)
     .toFixed(2);
 
   return (
-    <div className="flex flex-col justify-center my-10 sm:w-2/3   lg:w-1/3 mx-auto    shadow-zinc-400  shadow-lg p-4   ">
-      {cartItems.length < 1 ? (
-        <img src={emptyCartImage} alt="empty cart image" />
+    <main className="mx-auto my-10 flex w-full max-w-3xl flex-col justify-center p-4 shadow-lg shadow-zinc-400">
+      <h1 className="mb-4 text-2xl font-bold">Your Cart</h1>
+      {cartItems.length === 0 ? (
+        <div className="flex flex-col items-center gap-4">
+          <img src={emptyCartImage} alt="Your cart is empty" />
+          <p>Your cart is empty. Browse restaurants and add something you love.</p>
+          <button
+            type="button"
+            className="rounded-lg bg-orange-600 px-4 py-2 text-white"
+            onClick={() => navigate("/")}
+          >
+            Browse restaurants
+          </button>
+        </div>
       ) : (
         <>
-          {cartItems.map((item) => (
-            <FoodItem key={item.id} {...item} />
-          ))}
-          <div className="font-extrabold ">
-            <hr className=" shadow-black shadow" />
-            <h3
-              className="text-red-500  flex justify-end
-                 shadow-black shadow-sm "
-            >
-              {" "}
-              Total in INR - {total ? total : "100"}{" "}
-            </h3>
+          <ul className="divide-y">
+            {cartItems.map((item) => {
+              const price = item.price ?? item.defaultPrice ?? 0;
+              return (
+                <li key={item.id} className="flex items-center gap-4 py-4">
+                  {item.imageId && (
+                    <img
+                      src={`${ITEM_IMG_CDN_URL}${item.imageId}`}
+                      alt={item.name}
+                      className="h-20 w-20 rounded object-cover"
+                    />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <h2 className="font-semibold">{item.name}</h2>
+                    <p className="text-sm text-gray-600">
+                      ₹{(price / 100).toFixed(2)} each
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      className="rounded border px-2 py-1"
+                      aria-label={`Remove one ${item.name}`}
+                      onClick={() => dispatch(decrementItemCount(item.id))}
+                    >
+                      −
+                    </button>
+                    <span>{item.count}</span>
+                    <button
+                      type="button"
+                      className="rounded border px-2 py-1"
+                      aria-label={`Add one ${item.name}`}
+                      onClick={() => dispatch(incrementItemCount(item.id))}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <strong className="w-24 text-right">
+                    ₹{((price * item.count) / 100).toFixed(2)}
+                  </strong>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="flex justify-end border-t pt-4 font-bold">
+            Total: ₹{total}
           </div>
-          <button className="flex justify-end">
-            <span
-              className="bg-orange-500 rounded-lg p-1 m-2"
-              onClick={handleOrderClick}
-            >
-              {" "}
-              Order Now{" "}
-            </span>
+          <button
+            type="button"
+            className="mt-4 self-end rounded-lg bg-orange-500 px-4 py-2 text-white"
+            onClick={handleOrderClick}
+          >
+            {currentUser ? "Place order" : "Sign in to order"}
           </button>
-          {order.length > 0 && (
-            <div className="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-              Your order has been placed successfully!
-            </div>
-          )}{" "}
         </>
       )}
-    </div>
+    </main>
   );
 };
 export default Cart;

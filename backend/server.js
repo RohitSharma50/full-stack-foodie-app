@@ -8,6 +8,7 @@ const db = require("./db.js");
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
+
 const allowedOrigins = [
   "http://localhost:1234", // frontend dev server
 
@@ -24,10 +25,12 @@ app.use(
     },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
-  })
+  }),
 );
 
 const userRoute = require("./routes/userRoute");
+const googleLoginRoute = require("./routes/GoogleLogin");
+app.use("/api", googleLoginRoute);
 app.use("/api/users", userRoute);
 
 app.get("/", (req, res) => {

@@ -47,6 +47,7 @@ export const loginUser = (userData) => async (dispatch) => {
     const { user, message } = response.data;
 
     if (user) {
+      localStorage.removeItem("authToken");
       localStorage.setItem("currentUser", JSON.stringify(user));
       dispatch(userLoginSuccess(user));
       toast.success(message || "Login successful!");
@@ -54,12 +55,41 @@ export const loginUser = (userData) => async (dispatch) => {
     } else {
       dispatch(userLoginFailed("Login failed. Try again."));
       toast.error("Login failed. Try again.");
+      return { success: false, message: "Login failed. Try again." };
     }
   } catch (error) {
     const message =
       error.response?.data?.message || "Login failed. Check credentials.";
     dispatch(userLoginFailed(message));
     toast.error(message);
-    return { success: false };
+    return { success: false, message };
+  }
+};
+
+export const googleLogin = (credential) => async (dispatch) => {
+  dispatch(userLoginRequest());
+
+  try {
+    const response = await axios.post(`${API_URL}/api/auth/google`, {
+      token: credential,
+    });
+    const { token, user, message } = response.data;
+
+    if (!token || !user?.id || !user?.email) {
+      throw new Error("The server returned an invalid Google sign-in response.");
+    }
+
+    localStorage.setItem("authToken", token);
+    dispatch(userLoginSuccess(user));
+    toast.success(message || "Google sign-in successful!");
+    return { success: true };
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Google sign-in failed. Please try again.";
+    dispatch(userLoginFailed(message));
+    toast.error(message);
+    return { success: false, message };
   }
 };

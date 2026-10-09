@@ -1,11 +1,11 @@
 import React from "react";
-import heartt from "../Images/heartt.png";
+import heartt from "url:../Images/heartt.png";
 import { FaLinkedin, FaGithub, FaPaperPlane, FaGlobe } from "react-icons/fa";
 import Contact from "./Contact";
 import { Link } from "react-router-dom";
-import playStore from "../Images/play-store.svg";
+import playStore from "url:../Images/play-store.svg";
 
-import appstore from "../Images/app-store.svg";
+import appstore from "url:../Images/app-store.svg";
 const Footer = () => {
   return (
     <footer className="bg-black text-white pt-10 pb-6 px-6 mt-12">

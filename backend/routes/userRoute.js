@@ -32,12 +32,16 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!validator.isEmail(email)) {
+    if (
+      typeof email !== "string" ||
+      typeof password !== "string" ||
+      !validator.isEmail(email)
+    ) {
       return res.status(400).json({ message: "Invalid email format" });
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
 
-    if (!user) {
+    if (!user?.password) {
       // don't reveal whether the email or password is incorrect because don't tell the user that this email exists or not
       return res.status(401).json({ message: "Invalid credentials" });
     }

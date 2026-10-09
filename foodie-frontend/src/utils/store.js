@@ -41,6 +41,7 @@ store.subscribe(() => {
   } else {
     localStorage.removeItem("currentUser"); //  avoid saving "undefined"
   }
+  localStorage.setItem("foodieCart", JSON.stringify(state.cart.items));
 });
 
 export default store;

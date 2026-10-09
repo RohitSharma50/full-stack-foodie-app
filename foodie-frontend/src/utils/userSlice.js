@@ -26,16 +26,10 @@ const userSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    userRegisterSuccess: (state, action) => {
+    userRegisterSuccess: (state) => {
       state.loading = false;
-      state.currentUser = action.payload.user;
-      state.isLoggedIn = true;
-      if (action.payload?.user) {
-        localStorage.setItem(
-          "currentUser",
-          JSON.stringify(action.payload.user)
-        );
-      }
+      state.isLoggedIn = !!state.currentUser;
+      state.error = null;
     },
     userRegisterFailed: (state, action) => {
       state.loading = false;
@@ -65,6 +59,7 @@ const userSlice = createSlice({
       state.isLoggedIn = false; // Reset login state
       state.currentUser = null;
       state.error = null;
+      localStorage.removeItem("authToken");
     },
   },
 });
